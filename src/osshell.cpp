@@ -12,8 +12,6 @@
 
 namespace fs = std::filesystem;
 
-
-
 void splitString(std::string text, char d, std::vector<std::string>& result);
 void vectorOfStringsToArrayOfCharArrays(std::vector<std::string>& list, char ***result);
 void freeArrayOfCharArrays(char **array, size_t array_length);
@@ -115,14 +113,35 @@ int main (int argc, char **argv)
                 }
                 
             } else if (atoi(command_list[1].c_str()) > 0 && atoi(command_list[1].c_str()) < commands_history.size()){
-                
-                int numberOfEntries = commands_history.size();
-                int numberEntered = atoi(command_list[1].c_str());
-                int newNUMB = numberOfEntries - numberEntered;
-                for(int i = newNUMB; i < numberOfEntries; i++) {
-                    std:: cout << "  " << i << ": " << commands_history[i] << std::endl;
-                }   
+                std::string stringTocheck = command_list[1].c_str();//temp string to store and check if command_list[1] is a number
+                bool checkDigit = true;
 
+                /*  Check every character separatly
+                    If all of the characters are digits do nothing 
+                    otherwise break the loop and set checkDigit to false*/
+
+                for(int i=0; i<stringTocheck.size(); i++){
+                    if(isdigit(stringTocheck[i])){
+
+                    }else{
+                        checkDigit = false;
+                        break;
+                    }
+                    
+                }
+
+                if(checkDigit == true){
+                    int numberOfEntries = commands_history.size();
+                    int numberEntered = atoi(command_list[1].c_str());
+                    int newNUMB = numberOfEntries - numberEntered;
+                    for(int i = newNUMB; i < numberOfEntries; i++) {
+                    std:: cout << "  " << i << ": " << commands_history[i] << std::endl;
+                    }
+                }else{
+                    std::cout << command_list[0] << ":" << " Error command not found" << std::endl;
+                }
+                
+               
                 commands_history.push_back(inputCommand);//Add the new command to the list of commands             
             }else {
                 std::cout << command_list[0] << ":" << " Error command not found" << std::endl;
