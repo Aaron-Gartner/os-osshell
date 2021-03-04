@@ -29,12 +29,8 @@ int main (int argc, char **argv)
     char **command_list_exec; // command_list converted to an array of character arrays
     std::vector<std::string> commands_history;
 
-
-
-
     // Welcome message
     std::cout << "Welcome to OSShell! Please enter your commands ('exit' to quit)." << std::endl;
-
 
     //file read code
     std::string line;
@@ -57,9 +53,8 @@ int main (int argc, char **argv)
         splitString(inputCommand, ' ', command_list);
         vectorOfStringsToArrayOfCharArrays(command_list, &command_list_exec);
         if (inputCommand.empty()) {
-            
 
-        }else if(inputCommand[0] == '.' || inputCommand[0] == '/'){
+        } else if(inputCommand[0] == '.' || inputCommand[0] == '/'){
             //check if user input starts with a dot or slash
             if(fileExist(inputCommand) == true){
                 
@@ -77,10 +72,7 @@ int main (int argc, char **argv)
                 int sd;
                 waitpid(pid, &sd, 0);
 
-
-
-
-            }else{
+            } else {
                 std::cout << command_list[0] << ":" << " Error command not found" << std::endl;
             }
 
@@ -116,34 +108,33 @@ int main (int argc, char **argv)
                 std::string stringTocheck = command_list[1].c_str();//temp string to store and check if command_list[1] is a number
                 bool checkDigit = true;
 
-                /*  Check every character separatly
+                /*  Check every character separately
                     If all of the characters are digits do nothing 
                     otherwise break the loop and set checkDigit to false*/
-
-                for(int i=0; i<stringTocheck.size(); i++){
+                for (int i=0; i<stringTocheck.size(); i++) {
                     if(isdigit(stringTocheck[i])){
 
-                    }else{
+                    } else {
                         checkDigit = false;
                         break;
                     }
                     
                 }
 
-                if(checkDigit == true){
+                if (checkDigit == true) {
                     int numberOfEntries = commands_history.size();
                     int numberEntered = atoi(command_list[1].c_str());
                     int newNUMB = numberOfEntries - numberEntered;
                     for(int i = newNUMB; i < numberOfEntries; i++) {
                     std:: cout << "  " << i << ": " << commands_history[i] << std::endl;
                     }
-                }else{
-                    std::cout << command_list[0] << ":" << " Error command not found" << std::endl;
+                } else {
+                    std::cout << command_list[0] << ": " << "Error: history expects an integer>0(or'clear')" << std::endl;
                 }
                 
                
                 commands_history.push_back(inputCommand);//Add the new command to the list of commands             
-            }else {
+            } else {
                 std::cout << command_list[0] << ":" << " Error command not found" << std::endl;
                 commands_history.push_back(inputCommand);//Add the new command to the list of commands   
             }
@@ -178,20 +169,15 @@ int main (int argc, char **argv)
             }
 
         }
-        
-        
+              
     }
-    // Repeat:
-    //  Print prompt for user input: "osshell> " (no newline)
-    //  Get user input for next command
-    //  If command is `exit` exit loop / quit program
-    //  If command is `history` print previous N commands
-    //  For all other commands, check if an executable by that name is in one of the PATH directories
-    //   If yes, execute it
-    //   If no, print error statement: "<command_name>: Error command not found" (do include newline)
+    
     return 0;
 }
-
+/*
+    path: string to check
+    returns a boolean if path leads to a valid path
+*/
 bool fileExist(std::string path) {
     if (std::filesystem::exists(path) ){
         return true;
